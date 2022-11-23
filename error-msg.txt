@@ -1,0 +1,35 @@
+Warning: included file "count.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "subcircuit.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "regular.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "nvalue.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "inverse.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "global_cardinality_low_up.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "distribute.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "disjunctive_strict.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "disjunctive.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "cumulative.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "cost_regular.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Warning: included file "circuit.mzn" overrides a global constraint file from the standard library. This is deprecated. For a solver-specific redefinition of a global constraint, override "fzn_<global>.mzn" instead.
+
+Error: type error: no function or predicate with this signature found: `inverse(array[int] of var opt int,array[int] of var opt int)'
+Cannot use the following functions or predicates with the same identifier:
+function array [$$E] of $$F : inverse(array [$$F] of $$E: f);
+    (requires 1 argument, but 2 given)
+function array [$$E] of var $$F : inverse(array [$$F] of var $$E: f);
+    (requires 1 argument, but 2 given)
+function array [$$E] of var opt $$F : inverse(array [$$F] of var opt $$E: f);
+    (requires 1 argument, but 2 given)
+predicate inverse(array [int] of var int: f,array [int] of var int: invf);
+    (argument 1 expects type array[int] of var int, but type array[int] of var opt int given)
+    (argument 2 expects type array[int] of var int, but type array[int] of var opt int given)
