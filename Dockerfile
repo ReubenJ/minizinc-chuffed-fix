@@ -1,3 +1,5 @@
+ARG MINIZINCVERSION=2.6.4
+
 FROM ubuntu:20.04 as base
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive \
@@ -6,11 +8,13 @@ RUN apt-get update && \
     cmake
 
 FROM base AS with_built_libminizinc
-COPY ./libminizinc /libminizinc
-RUN mkdir libminizinc/build
-WORKDIR /libminizinc/build
-RUN cmake -DCMAKE_BUILD_TYPE=Release .. && \
-    cmake --build . -j $(nproc)
+# Install MiniZinc
+ARG MINIZINCVERSION
+ARG MINIZINC_DIR="/MiniZincIDE-${MINIZINCVERSION}-bundle-linux-x86_64/"
+ADD https://github.com/MiniZinc/MiniZincIDE/releases/download/${MINIZINCVERSION}/MiniZincIDE-${MINIZINCVERSION}-bundle-linux-x86_64.tgz MiniZincIDE-${MINIZINCVERSION}-bundle-linux-x86_64.tgz
+RUN tar xf MiniZincIDE-${MINIZINCVERSION}-bundle-linux-x86_64.tgz && \
+    rm MiniZincIDE-${MINIZINCVERSION}-bundle-linux-x86_64.tgz && \
+    rm "${MINIZINC_DIR}/share/minizinc/solvers/chuffed.msc"
 
 FROM base AS with_built_chuffed
 COPY ./chuffed /chuffed
@@ -22,9 +26,10 @@ RUN cmake .. && \
     cmake --build . -j $(nproc)
 
 FROM base AS with_installed_mz_chuffed_with_problems
-COPY --from=with_built_libminizinc /libminizinc /libminizinc
-WORKDIR /libminizinc/build
-RUN cmake --build . --target install
+ARG MINIZINCVERSION
+ARG MINIZINC_DIR="/MiniZincIDE-${MINIZINCVERSION}-bundle-linux-x86_64/"
+COPY --from=with_built_libminizinc ${MINIZINC_DIR} ${MINIZINC_DIR}
+ENV PATH="/${MINIZINC_DIR}/bin:${PATH}"
 
 COPY --from=with_built_chuffed /chuffed /chuffed
 WORKDIR /chuffed/build
