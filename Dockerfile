@@ -18,11 +18,8 @@ WORKDIR /
 RUN mkdir chuffed/build
 WORKDIR /chuffed/build
 # Install prefix can also be ex: /usr/local/share/minizinc/solvers
-RUN cmake -DCMAKE_INSTALL_PREFIX=/usr/share/minizinc/solvers .. && \
+RUN cmake .. && \
     cmake --build . -j $(nproc)
-
-FROM base AS with_problems
-COPY ./problems /problems
 
 FROM base AS with_installed_mz_chuffed_with_problems
 COPY --from=with_built_libminizinc /libminizinc /libminizinc
@@ -33,6 +30,6 @@ COPY --from=with_built_chuffed /chuffed /chuffed
 WORKDIR /chuffed/build
 RUN cmake --build . --target install
 
-COPY --from=with_problems /problems /problems
+COPY ./problems /problems
 WORKDIR /problems
 CMD [ "minizinc", "sugiyama2.mzn", "g4_7_7_7_7.dzn", "--solver", "org.chuffed.chuffed" ]
